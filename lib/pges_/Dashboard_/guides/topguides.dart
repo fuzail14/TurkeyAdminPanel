@@ -87,16 +87,16 @@ class _topguidesState extends State<topguides> {
                     },
                     child: Container(
                       height: 200,
-                      decoration: BoxDecoration(
-                          color: AppColors.unselected_c,
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                cityimage == null
-                                    ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                                    : cityimage,
-                              ))),
-                      child: cityimage == null
+                      // decoration: BoxDecoration(
+                      //     color: AppColors.unselected_c,
+                      //     image: DecorationImage(
+                      //         fit: BoxFit.fill,
+                      //         image: NetworkImage(
+                      //           cityimage == null
+                      //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+                      //               : cityimage,
+                      //         ))),
+                      child: _pickedImage == null
                           ? Center(
                               child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +113,7 @@ class _topguidesState extends State<topguides> {
                                     : CircularProgressIndicator()
                               ],
                             ))
-                          : null,
+                          : Image.memory(webImage),
                     ),
                   ),
                   SizedBox(
@@ -124,9 +124,9 @@ class _topguidesState extends State<topguides> {
                     onpressed: () async {
                       FirebaseFirestore firestore = FirebaseFirestore.instance;
                       try {
-                        if (cityimage != null && cityname.text.isNotEmpty) {
+                        if (cityimages != null && cityname.text.isNotEmpty) {
                           await firestore.collection("cities").add({
-                            "cityimage": cityimage,
+                            "cityimage": cityimages,
                             "cityname": cityname.text,
                             "date": formattedDate,
                           });
@@ -137,7 +137,7 @@ class _topguidesState extends State<topguides> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => subguides(
-                                      cityimage: cityimage,
+                                      cityimage: cityimages,
                                       cityname: cityname.text,
                                     )));
                       } catch (e) {
@@ -166,9 +166,10 @@ class _topguidesState extends State<topguides> {
     "Please one subcatagory"
   ];
 
-  var cityimage;
-  var citycatagoryimage;
+   var cityimages;
   bool loading = false;
+  Uint8List webImage = Uint8List(8);
+  File? _pickedImage;
 
   Future<void> _upload(String inputSource) async {
     final picker = ImagePicker();
@@ -184,37 +185,115 @@ class _topguidesState extends State<topguides> {
           maxWidth: 1920);
 
       final String fileName = path.basename(pickedImage!.path);
+
       File imageFile = File(pickedImage.path);
-      print('Usama$fileName');
+      var f;
+      print('image $fileName');
 
-      try {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        // Uploading the selected image with some custom meta data
-        await storage.ref(fileName).putFile(
-            imageFile,
-            SettableMetadata(customMetadata: {
-              'uploaded_by': 'A bad guy',
-              'description': 'Some description...'
-            }));
-        cityimage = await storage.ref(fileName).getDownloadURL();
-        print(cityimage);
+      if (pickedImage != null) {
+        f = await pickedImage.readAsBytes();
+        setState(() {
+          webImage = f;
 
-        // Refresh the UI
-        setState(() {});
-      } on FirebaseException catch (error) {
-        if (kDebugMode) {
-          print(error);
-        }
+          _pickedImage = File('a');
+        });
       }
+      if (kIsWeb) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference _reference =
+            storage.ref().child('${path.basename(pickedImage.path)}');
+        await _reference
+            .putData(
+          await pickedImage.readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            cityimages = value;
+          });
+        });
+      } else {
+//write a code for android or ios
+      }
+
+      //   try {
+      //     FirebaseStorage storage = FirebaseStorage.instance;
+      //     // Uploading the selected image with some custom meta data
+      //     await storage.ref(fileName).putFile(
+      //         imageFile,
+      //         SettableMetadata(customMetadata: {
+      //           'uploaded_by': 'A bad guy',
+      //           'description': 'Some description...'
+      //         }));
+      //     mainimages = await storage.ref(fileName).getDownloadURL();
+      //     print(mainimages);
+
+      //     // Refresh the UI
+      //     setState(() {});
+      //   } on FirebaseException catch (error) {
+      //     if (kDebugMode) {
+      //       print('catch error $error');
+      //     }
+      //   }
+      // }
     } catch (err) {
       if (kDebugMode) {
-        print(err);
+        print('catch err $err');
       }
       setState(() {
         loading = false;
       });
     }
   }
+  // var cityimage;
+   var citycatagoryimage;
+  // bool loading = false;
+
+  // Future<void> _upload(String inputSource) async {
+  //   final picker = ImagePicker();
+  //   XFile? pickedImage;
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   try {
+  //     pickedImage = await picker.pickImage(
+  //         source: inputSource == 'camera'
+  //             ? ImageSource.camera
+  //             : ImageSource.gallery,
+  //         maxWidth: 1920);
+
+  //     final String fileName = path.basename(pickedImage!.path);
+  //     File imageFile = File(pickedImage.path);
+  //     print('Usama$fileName');
+
+  //     try {
+  //       FirebaseStorage storage = FirebaseStorage.instance;
+  //       // Uploading the selected image with some custom meta data
+  //       await storage.ref(fileName).putFile(
+  //           imageFile,
+  //           SettableMetadata(customMetadata: {
+  //             'uploaded_by': 'A bad guy',
+  //             'description': 'Some description...'
+  //           }));
+  //       cityimage = await storage.ref(fileName).getDownloadURL();
+  //       print(cityimage);
+
+  //       // Refresh the UI
+  //       setState(() {});
+  //     } on FirebaseException catch (error) {
+  //       if (kDebugMode) {
+  //         print(error);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     if (kDebugMode) {
+  //       print(err);
+  //     }
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   Future<void> cityupload(String inputSource) async {
     final picker = ImagePicker();

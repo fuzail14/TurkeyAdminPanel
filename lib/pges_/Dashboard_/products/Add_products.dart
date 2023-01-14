@@ -76,16 +76,18 @@ class _AddproductsState extends State<Addproducts> {
                         child: Container(
                           margin: EdgeInsets.only(top: 10, bottom: 10),
                           height: 200,
-                          decoration: BoxDecoration(
-                              color: AppColors.unselected_c,
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(
-                                    mainimages == null
-                                        ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                                        : mainimages,
-                                  ))),
-                          child: mainimages == null
+                          // decoration: BoxDecoration(
+                          //     color: AppColors.unselected_c,
+                          //     image: DecorationImage(
+                          //         fit: BoxFit.fill,
+                          //         image: NetworkImage(
+                          //           mainimages == null
+                          //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+                          //               : mainimages,
+                          //         ))
+                          //         ),
+
+                          child: _pickedImage == null
                               ? Center(
                                   child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,7 +104,7 @@ class _AddproductsState extends State<Addproducts> {
                                           ),
                                   ],
                                 ))
-                              : null,
+                              : Image.memory(webImage),
                         ),
                       ),
                       Text("Main Catagory"),
@@ -288,32 +290,29 @@ class _AddproductsState extends State<Addproducts> {
                         break;
                       }
                     case 3:
-                     {
-                       if (mainimages != null) {
-                         FirebaseFirestore firestore =
-                             FirebaseFirestore.instance;
-                         firestore
-                             .collection("topresturent")
-                             .doc()
-                             .set({
-                           "mainimage": mainimages,
-                           "maincontent": contentconroller.text,
-                           "maincatagory": _listHorizontal[_indexHorizontal],
-                         });
-                         ScaffoldMessenger.of(context).showSnackBar(
-                             MySnackbar.successSnackBar(
-                                 "${_listHorizontal[_indexHorizontal]} Images Successfull  Uploaded"));
+                      {
+                        if (mainimages != null) {
+                          FirebaseFirestore firestore =
+                              FirebaseFirestore.instance;
+                          firestore.collection("topresturent").doc().set({
+                            "mainimage": mainimages,
+                            "maincontent": contentconroller.text,
+                            "maincatagory": _listHorizontal[_indexHorizontal],
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              MySnackbar.successSnackBar(
+                                  "${_listHorizontal[_indexHorizontal]} Images Successfull  Uploaded"));
 
-                         Navigator.push(
-                             context,
-                             MaterialPageRoute(
-                                 builder: (context) => Resturent_cities(
-                                   coverimages: mainimages,
-                                   content: contentconroller.text,
-                                   maincatagory:
-                                   _listHorizontal[_indexHorizontal],
-                                 )));
-                       }
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Resturent_cities(
+                                        coverimages: mainimages,
+                                        content: contentconroller.text,
+                                        maincatagory:
+                                            _listHorizontal[_indexHorizontal],
+                                      )));
+                        }
                         break;
                       }
                     default:
@@ -329,6 +328,8 @@ class _AddproductsState extends State<Addproducts> {
 
   var mainimages;
   bool loading = false;
+  Uint8List webImage = Uint8List(8);
+  File? _pickedImage;
 
   Future<void> _upload(String inputSource) async {
     final picker = ImagePicker();
@@ -344,31 +345,60 @@ class _AddproductsState extends State<Addproducts> {
           maxWidth: 1920);
 
       final String fileName = path.basename(pickedImage!.path);
+
       File imageFile = File(pickedImage.path);
-      print('Usama$fileName');
+      var f;
+      print('image $fileName');
 
-      try {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        // Uploading the selected image with some custom meta data
-        await storage.ref(fileName).putFile(
-            imageFile,
-            SettableMetadata(customMetadata: {
-              'uploaded_by': 'A bad guy',
-              'description': 'Some description...'
-            }));
-        mainimages = await storage.ref(fileName).getDownloadURL();
-        print(mainimages);
+      if (pickedImage != null) {
+        f = await pickedImage.readAsBytes();
+        setState(() {
+          webImage = f;
 
-        // Refresh the UI
-        setState(() {});
-      } on FirebaseException catch (error) {
-        if (kDebugMode) {
-          print(error);
-        }
+          _pickedImage = File('a');
+        });
       }
+      if (kIsWeb) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference _reference =
+            storage.ref().child('images/${path.basename(pickedImage.path)}');
+        await _reference
+            .putData(
+          await pickedImage.readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            mainimages = value;
+          });
+        });
+      } else {
+//write a code for android or ios
+      }
+
+      //   try {
+      //     FirebaseStorage storage = FirebaseStorage.instance;
+      //     // Uploading the selected image with some custom meta data
+      //     await storage.ref(fileName).putFile(
+      //         imageFile,
+      //         SettableMetadata(customMetadata: {
+      //           'uploaded_by': 'A bad guy',
+      //           'description': 'Some description...'
+      //         }));
+      //     mainimages = await storage.ref(fileName).getDownloadURL();
+      //     print(mainimages);
+
+      //     // Refresh the UI
+      //     setState(() {});
+      //   } on FirebaseException catch (error) {
+      //     if (kDebugMode) {
+      //       print('catch error $error');
+      //     }
+      //   }
+      // }
     } catch (err) {
       if (kDebugMode) {
-        print(err);
+        print('catch err $err');
       }
       setState(() {
         loading = false;

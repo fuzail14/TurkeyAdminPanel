@@ -86,211 +86,214 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _thumbnailPart(),
-            SizedBox(height: 20),
-            _line,
-            MenuBox(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Dashboard()));
-              },
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.white,
-              ),
-              menu: Text(
-                "Dashboard",
-                style: TextStyle(
-                  fontSize: 20,
+      child: SingleChildScrollView(
+        child: Container(
+          
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _thumbnailPart(),
+              SizedBox(height: 20),
+              _line,
+              MenuBox(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Dashboard()));
+                },
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                icon: Icon(
+                  Icons.dashboard,
                   color: Colors.white,
                 ),
-              ),
-            ),
-            MenuBox(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-              icon: Icon(
-                Icons.add_task,
-                color: Colors.white,
-              ),
-              menu: Text(
-                "Photos",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            MenuBox(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-              icon: Icon(
-                Icons.announcement_rounded,
-                color: Colors.white,
-              ),
-              menu: Text(
-                "Services",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            ExpansionTile(
-              iconColor: Colors.white,
-              collapsedTextColor: Colors.white,
-              expandedAlignment: Alignment.topLeft,
-              expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              title: Text(
-                'Add Products',
-                style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-              children: [
-                MenuBox(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Addproducts()));
-                  },
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-                  icon: Icon(
-                    Icons.dashboard,
+                menu: Text(
+                  "Dashboard",
+                  style: TextStyle(
+                    fontSize: 20,
                     color: Colors.white,
                   ),
-                  menu: Text(
-                    "Add Main catagory",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
+                ),
+              ),
+              MenuBox(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                icon: Icon(
+                  Icons.add_task,
+                  color: Colors.white,
+                ),
+                menu: Text(
+                  "Photos",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
                   ),
                 ),
-                ExpansionTile(
-                    iconColor: Colors.white,
-                    collapsedTextColor: Colors.white,
-                    expandedAlignment: Alignment.topLeft,
-                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                    title: Text(
-                      'Add SubCatagory',
-                      style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
+              ),
+              MenuBox(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                icon: Icon(
+                  Icons.announcement_rounded,
+                  color: Colors.white,
+                ),
+                menu: Text(
+                  "Services",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              ExpansionTile(
+                iconColor: Colors.white,
+                collapsedTextColor: Colors.white,
+                expandedAlignment: Alignment.topLeft,
+                expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                title: Text(
+                  'Add Products',
+                  style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
+                ),
+                children: [
+                  MenuBox(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Addproducts()));
+                    },
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                    icon: Icon(
+                      Icons.dashboard,
+                      color: Colors.white,
                     ),
-                    children: [
-                      MenuBox(
-                        icon: Icon(
-                          Icons.explore,
-                          color: Colors.white,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Packges(
-                                      content: "images",
-                                      coverimages: "images",
-                                      maincatagory: "Explore our packages")));
-                        },
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 15),
-                        menu: Text(
-                          "Explore our packages",
-                          style: TextStyle(
-                            fontSize: 20,
+                    menu: Text(
+                      "Add Main catagory",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  ExpansionTile(
+                      iconColor: Colors.white,
+                      collapsedTextColor: Colors.white,
+                      expandedAlignment: Alignment.topLeft,
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      title: Text(
+                        'Add SubCatagory',
+                        style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                      children: [
+                        MenuBox(
+                          icon: Icon(
+                            Icons.explore,
                             color: Colors.white,
                           ),
-                        ),
-                      ),
-                      MenuBox(
-                        icon: Icon(
-                          Icons.car_rental,
-                          color: Colors.white,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Rentcars(
-                                      content: "Rent Car",
-                                      coverimages: "Cover images",
-                                      maincatagory: "Get a car for rent ")));
-                        },
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 15),
-                        menu: Text(
-                          "Get a car for rent ",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Packges(
+                                        content: "images",
+                                        coverimages: "images",
+                                        maincatagory: "Explore our packages")));
+                          },
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 15),
+                          menu: Text(
+                            "Explore our packages",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      MenuBox(
-                        icon: Icon(
-                          Icons.perm_device_info_rounded,
-                          color: Colors.white,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => topguides(
-                                        maincatagory: 'Top Guides',
-                                        coverimages:
-                                            'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
-                                        content: 'Let us guide you ',
-                                      )));
-                        },
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 15),
-                        menu: Text(
-                          "Let us guide you",
-                          style: TextStyle(
-                            fontSize: 20,
+                        MenuBox(
+                          icon: Icon(
+                            Icons.car_rental,
                             color: Colors.white,
                           ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Rentcars(
+                                        content: "Rent Car",
+                                        coverimages: "Cover images",
+                                        maincatagory: "Get a car for rent ")));
+                          },
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 15),
+                          menu: Text(
+                            "Get a car for rent ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                    ]),
-              ],
-            ),
-            MenuBox(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-              icon: Icon(
-                Icons.supervised_user_circle_sharp,
-                color: Colors.white,
+                        MenuBox(
+                          icon: Icon(
+                            Icons.perm_device_info_rounded,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => topguides(
+                                          maincatagory: 'Top Guides',
+                                          coverimages:
+                                              'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
+                                          content: 'Let us guide you ',
+                                        )));
+                          },
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 15),
+                          menu: Text(
+                            "Let us guide you",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ]),
+                ],
               ),
-              menu: Text(
-                "users",
-                style: TextStyle(
-                  fontSize: 20,
+              MenuBox(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                icon: Icon(
+                  Icons.supervised_user_circle_sharp,
                   color: Colors.white,
                 ),
-              ),
-            ),
-            MenuBox(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              menu: Text(
-                "Setting",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
+                menu: Text(
+                  "users",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          ],
+              MenuBox(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                ),
+                menu: Text(
+                  "Setting",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

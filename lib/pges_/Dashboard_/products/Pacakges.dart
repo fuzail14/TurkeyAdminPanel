@@ -86,16 +86,16 @@ class _PackgesState extends State<Packges> {
                     },
                     child: Container(
                       height: 200,
-                      decoration: BoxDecoration(
-                          color: AppColors.unselected_c,
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                packageimage == null
-                                    ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                                    : packageimage,
-                              ))),
-                      child: packageimage == null
+                      // decoration: BoxDecoration(
+                      //     color: AppColors.unselected_c,
+                      //     image: DecorationImage(
+                      //         fit: BoxFit.fill,
+                      //         image: NetworkImage(
+                      //           packageimage == null
+                      //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+                      //               : packageimage,
+                      //         ))),
+                      child: _pickedImage == null
                           ? Center(
                               child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +112,7 @@ class _PackgesState extends State<Packges> {
                                       ),
                               ],
                             ))
-                          : null,
+                          : Image.memory(webImage),
                     ),
                   ),
                   Container(
@@ -222,12 +222,12 @@ class _PackgesState extends State<Packges> {
                       print("packgeid${packageid}12567${packageid}");
                       FirebaseFirestore firestore = FirebaseFirestore.instance;
                       try {
-                        if (packageimage != null &&
+                        if (mainimages != null &&
                             pricecontroller.text.isNotEmpty &&
                             descriptioncontroller.text.isNotEmpty &&
                             pricecontroller.text.isNotEmpty) {
                           print(packagenamecontroler.text);
-                          print(packageimage);
+                          print(mainimages);
                           print(itemscontroller.text);
                           print(descriptioncontroller.text);
                           print(pricecontroller.text);
@@ -242,7 +242,7 @@ class _PackgesState extends State<Packges> {
                               .doc("oxgdy${packageid}ygdexy${packageid}")
                               .set({
                             "packagename": packagenamecontroler.text,
-                            "packageimage": packageimage,
+                            "packageimage": mainimages,
                             "items": itemscontroller.text,
                             "day": dayscontroller.text,
                             "rating": ratingcontroller.text,
@@ -279,8 +279,10 @@ class _PackgesState extends State<Packges> {
     );
   }
 
-  var packageimage;
+  var mainimages;
   bool loading = false;
+  Uint8List webImage = Uint8List(8);
+  File? _pickedImage;
 
   Future<void> _upload(String inputSource) async {
     final picker = ImagePicker();
@@ -296,37 +298,114 @@ class _PackgesState extends State<Packges> {
           maxWidth: 1920);
 
       final String fileName = path.basename(pickedImage!.path);
+
       File imageFile = File(pickedImage.path);
-      print('Usama$fileName');
+      var f;
+      print('image $fileName');
 
-      try {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        // Uploading the selected image with some custom meta data
-        await storage.ref(fileName).putFile(
-            imageFile,
-            SettableMetadata(customMetadata: {
-              'uploaded_by': 'A bad guy',
-              'description': 'Some description...'
-            }));
-        packageimage = await storage.ref(fileName).getDownloadURL();
-        print(packageimage);
+      if (pickedImage != null) {
+        f = await pickedImage.readAsBytes();
+        setState(() {
+          webImage = f;
 
-        // Refresh the UI
-        setState(() {});
-      } on FirebaseException catch (error) {
-        if (kDebugMode) {
-          print(error);
-        }
+          _pickedImage = File('a');
+        });
       }
+      if (kIsWeb) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference _reference =
+            storage.ref().child('${path.basename(pickedImage.path)}');
+        await _reference
+            .putData(
+          await pickedImage.readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            mainimages = value;
+          });
+        });
+      } else {
+//write a code for android or ios
+      }
+
+      //   try {
+      //     FirebaseStorage storage = FirebaseStorage.instance;
+      //     // Uploading the selected image with some custom meta data
+      //     await storage.ref(fileName).putFile(
+      //         imageFile,
+      //         SettableMetadata(customMetadata: {
+      //           'uploaded_by': 'A bad guy',
+      //           'description': 'Some description...'
+      //         }));
+      //     mainimages = await storage.ref(fileName).getDownloadURL();
+      //     print(mainimages);
+
+      //     // Refresh the UI
+      //     setState(() {});
+      //   } on FirebaseException catch (error) {
+      //     if (kDebugMode) {
+      //       print('catch error $error');
+      //     }
+      //   }
+      // }
     } catch (err) {
       if (kDebugMode) {
-        print(err);
+        print('catch err $err');
       }
       setState(() {
         loading = false;
       });
     }
   }
+  // var packageimage;
+  // bool loading = false;
+
+  // Future<void> _upload(String inputSource) async {
+  //   final picker = ImagePicker();
+  //   XFile? pickedImage;
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   try {
+  //     pickedImage = await picker.pickImage(
+  //         source: inputSource == 'camera'
+  //             ? ImageSource.camera
+  //             : ImageSource.gallery,
+  //         maxWidth: 1920);
+
+  //     final String fileName = path.basename(pickedImage!.path);
+  //     File imageFile = File(pickedImage.path);
+  //     print('Usama$fileName');
+
+  //     try {
+  //       FirebaseStorage storage = FirebaseStorage.instance;
+  //       // Uploading the selected image with some custom meta data
+  //       await storage.ref(fileName).putFile(
+  //           imageFile,
+  //           SettableMetadata(customMetadata: {
+  //             'uploaded_by': 'A bad guy',
+  //             'description': 'Some description...'
+  //           }));
+  //       packageimage = await storage.ref(fileName).getDownloadURL();
+  //       print(packageimage);
+
+  //       // Refresh the UI
+  //       setState(() {});
+  //     } on FirebaseException catch (error) {
+  //       if (kDebugMode) {
+  //         print(error);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     if (kDebugMode) {
+  //       print(err);
+  //     }
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   uploadImage() async {
     final _firebaseStorage = FirebaseStorage.instance;
