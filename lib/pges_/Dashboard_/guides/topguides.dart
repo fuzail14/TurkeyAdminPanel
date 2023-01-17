@@ -44,14 +44,7 @@ class _topguidesState extends State<topguides> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimationConfiguration.staggeredGrid(
-        position: 2,
-        duration: const Duration(microseconds: 100),
-        columnCount: 1,
-        child: ScaleAnimation(
-          child: FadeInAnimation(
-            child: Padding(
+    return  Padding(
               padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
               child: SingleChildScrollView(
                   child: Column(
@@ -278,10 +271,7 @@ class _topguidesState extends State<topguides> {
                   // ),
                 ],
               )),
-            ),
-          ),
-        ),
-      ),
+            
     );
   }
 

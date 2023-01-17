@@ -38,237 +38,192 @@ class _AddproductsState extends State<Addproducts> {
   TextEditingController contentconroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(110),
-          child: Padding(
-              padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-              child: Center(
-                  child: Text(
-                'Add Products',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-              ))),
-        ),
-        body: AnimationConfiguration.staggeredGrid(
-          position: 2,
-          duration: const Duration(microseconds: 100),
-          columnCount: 1,
-          child: ScaleAnimation(
-            child: FadeInAnimation(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
+    return Padding(
+      padding: EdgeInsets.only(left: 15, top: 100),
+      child: Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.800,
+            height: MediaQuery.of(context).size.height * 0.520,
+            child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 5,
+                color: HexColor('#FFFFFF'),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.800,
-                        height: MediaQuery.of(context).size.height * 0.520,
-                        child: Card(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        elevation: 5,
-                            color: HexColor('#FFFFFF'),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10,top:10),
-                              child: Column(
-                                children: [
-                                  // SizedBox(
-                                  //   width: 20,
-                                  // ),
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Content:',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0,
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0,
-                                                0,
-                                                0),
-                                            child: MyTextFormField(
-                                                fontWeight: FontWeight.w500,
-                                                // labelTextColor:secondaryColor ,
-                                                // hintTextColor: secondaryColor,
-
-                                                fillColor: HexColor('#F7F7F8'),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.39,
-
-                                                //validator: emptyStringValidator,
-
-                                                //controller: controller.subAdminFirstNameController,
-                                                controller: contentconroller,
-                                                hintText: "Enter Content",
-                                                obscureText: false,
-                                                labelText: "Enter Content",
-                                                onFocusedBorderColor:
-                                                    HexColor('#F7F7F8'),
-                                                onEnabledBorderColor:
-                                                    HexColor('#F7F7F8')),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Main Catagory",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                              height: 50,
-                                              color: HexColor('#F7F7F8'),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      '${_listHorizontal[_indexHorizontal]}',
-                                                      textAlign: TextAlign.left,
-                                                      style: GoogleFonts.roboto(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 15),
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        print(formattedDate);
-                                                        ShowBottomsheet(context);
-                                                      },
-                                                      child: Icon(Icons
-                                                          .arrow_forward_ios),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          _upload('gallery');
-                                        },
-                                        child: DottedBorder(
-                                          color: HexColor('#13326E'),
-                                          strokeWidth: 1,
-                                          dashPattern: [10, 8],
-                                          child: Container(
-                                            // margin:
-                                            //     EdgeInsets.only(top: 10, bottom: 10),
-
-                                            height: 150,
-
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.39,
-                                            // decoration: BoxDecoration(
-                                            //     color: AppColors.unselected_c,
-
-                                            //         ),
-
-                                            child: _pickedImage == null
-                                                ? Center(
-                                                    child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.center,
-                                                    children: [
-                                                      loading == true
-                                                          ? CircularProgressIndicator()
-                                                          : Text(
-                                                              'Choose from Gallery',
-                                                              style: GoogleFonts
-                                                                  .roboto(
-                                                                      fontSize:
-                                                                          20,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700,
-                                                                      color: Colors
-                                                                          .blue),
-                                                            ),
-                                                    ],
-                                                  ))
-                                                : Image.memory(
-                                                    webImage,
-                                                    height: 150,
-                                                    width: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.39,
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Align(
-                                  //   alignment: Alignment.bottomRight,
-                                  //   child: ElevatedButton(
-                                  //       style: ElevatedButton.styleFrom(
-                                  //           minimumSize: Size(30, 30),
-
-                                  //           ),
-                                  //       onPressed: () {},
-                                  //       child: Text('Submit')),
-                                  // )
-
-                                  // productfield(
-                                  //   textInputType: TextInputType.text,
-                                  //   width: null,
-                                  //   text: 'Content',
-
-                                  //   height: null,
-                                  // ),
-                                ],
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Content:',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w800),
                               ),
-                            )),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    0,
+                                    MediaQuery.of(context).size.width * 0,
+                                    0,
+                                    0),
+                                child: MyTextFormField(
+                                    fontWeight: FontWeight.w500,
+                                    // labelTextColor:secondaryColor ,
+                                    // hintTextColor: secondaryColor,
+
+                                    fillColor: HexColor('#F7F7F8'),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.39,
+
+                                    //validator: emptyStringValidator,
+
+                                    //controller: controller.subAdminFirstNameController,
+                                    controller: contentconroller,
+                                    hintText: "Enter Content",
+                                    obscureText: false,
+                                    labelText: "Enter Content",
+                                    onFocusedBorderColor: HexColor('#F7F7F8'),
+                                    onEnabledBorderColor: HexColor('#F7F7F8')),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Main Catagory",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w800),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                  height: 50,
+                                  color: HexColor('#F7F7F8'),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${_listHorizontal[_indexHorizontal]}',
+                                          textAlign: TextAlign.left,
+                                          style: GoogleFonts.roboto(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print(formattedDate);
+                                            ShowBottomsheet(context);
+                                          },
+                                          child: Icon(Icons.arrow_forward_ios),
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ],
                       ),
-                    
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _upload('gallery');
+                            },
+                            child: DottedBorder(
+                              color: HexColor('#13326E'),
+                              strokeWidth: 1,
+                              dashPattern: [10, 8],
+                              child: Container(
+                                // margin:
+                                //     EdgeInsets.only(top: 10, bottom: 10),
+
+                                height: 150,
+
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                // decoration: BoxDecoration(
+                                //     color: AppColors.unselected_c,
+
+                                //         ),
+
+                                child: _pickedImage == null
+                                    ? Center(
+                                        child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          loading == true
+                                              ? CircularProgressIndicator()
+                                              : Text(
+                                                  'Choose from Gallery',
+                                                  style: GoogleFonts.roboto(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.blue),
+                                                ),
+                                        ],
+                                      ))
+                                    : Image.memory(
+                                        webImage,
+                                        height: 150,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.39,
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Align(
+                      //   alignment: Alignment.bottomRight,
+                      //   child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //           minimumSize: Size(30, 30),
+
+                      //           ),
+                      //       onPressed: () {},
+                      //       child: Text('Submit')),
+                      // )
+
+                      // productfield(
+                      //   textInputType: TextInputType.text,
+                      //   width: null,
+                      //   text: 'Content',
+
+                      //   height: null,
+                      // ),
                     ],
                   ),
-                ),
-              ),
-            ),
+                )),
           ),
-        ));
+        ],
+      ),
+    );
   }
 
   bool? radcolor;
@@ -339,7 +294,21 @@ class _AddproductsState extends State<Addproducts> {
                                           content: contentconroller.text,
                                           maincatagory:
                                               _listHorizontal[_indexHorizontal],
-                                        )));
+                                        ))
+                                        );
+
+                            print('data');
+                            print(mainimages);
+                            print(contentconroller.text);
+                            print(_listHorizontal[_indexHorizontal]);
+                            
+                            //page.jumpToPage(4);
+                            // Packges(
+                            //   coverimages: mainimages,
+                            //   content: contentconroller.text,
+                            //   maincatagory: _listHorizontal[_indexHorizontal],
+                            // );
+
                           }
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -487,7 +456,7 @@ class _AddproductsState extends State<Addproducts> {
       if (kIsWeb) {
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference _reference =
-            storage.ref().child('images/${path.basename(pickedImage.path)}');
+            storage.ref().child('${path.basename(pickedImage.path)}');
         await _reference
             .putData(
           await pickedImage.readAsBytes(),

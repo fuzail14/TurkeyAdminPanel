@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slide_drawer/flutter_slide_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:turkeyadmin/pges_/Dashboard_/AllUsers/allusers_screen.dart';
 import 'package:turkeyadmin/pges_/Dashboard_/products/Add_products.dart';
 import 'package:turkeyadmin/pges_/Dashboard_/products/Pacakges.dart';
 import 'package:turkeyadmin/pges_/Dashboard_/products/Rentcars.dart';
 import 'package:turkeyadmin/pges_/Dashboard_/guides/topguides.dart';
+
+PageController page = PageController();
 
 class Dashboard extends StatefulWidget {
   @override
@@ -16,8 +19,157 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final GlobalKey<SliderDrawerWidgetState> drawerKey = GlobalKey();
-  PageController page = PageController();
 
+  List<Widget> _list = <Widget>[
+    MenuBox(
+      onTap: () {
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => Dashboard()));
+      },
+      //padding: EdgeInsets.only(left: 0),
+      icon: Icon(
+        Icons.dashboard,
+        color: Colors.white,
+      ),
+      menu: Text("Dashboard", style: textstyle),
+    ),
+    MenuBox(
+      //padding: EdgeInsets.only(left: 0,),
+      icon: Icon(
+        Icons.add_task,
+        color: Colors.white,
+      ),
+      menu: Text("Photos", style: textstyle),
+    ),
+    MenuBox(
+      // padding: EdgeInsets.only(left: 0),
+      icon: Icon(
+        Icons.announcement_rounded,
+        color: Colors.white,
+      ),
+      menu: Text("Services", style: textstyle),
+    ),
+    MenuBox(
+      onTap: () {
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => Addproducts()));
+      },
+      //padding: EdgeInsets.only(left: 0),
+      icon: Icon(
+        Icons.dashboard,
+        color: Colors.white,
+        size: 14,
+      ),
+
+      menu: Text(
+        "Add Main catagory",
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    MenuBox(
+      icon: Icon(
+        Icons.explore,
+        color: Colors.white,
+        size: 14,
+      ),
+      onTap: () {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => Packges(
+        //             content: "images",
+        //             coverimages: "images",
+        //             maincatagory: "Explore our packages")));
+      },
+      // padding: const EdgeInsets.symmetric(
+      //     horizontal: 0, vertical: 15),
+
+      menu: Text(
+        "Explore our packages",
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    MenuBox(
+      icon: Icon(
+        Icons.car_rental,
+        color: Colors.white,
+        size: 14,
+      ),
+      onTap: () {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => Rentcars(
+        //             content: "Rent Car",
+        //             coverimages: "Cover images",
+        //             maincatagory: "Get a car for rent ")));
+      },
+      // padding: const EdgeInsets.symmetric(
+      //     horizontal: 0, vertical: 15),
+      menu: Text(
+        "Get a car for rent ",
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    MenuBox(
+      icon: Icon(
+        Icons.perm_device_info_rounded,
+        color: Colors.white,
+        size: 14,
+      ),
+      onTap: () {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => topguides(
+        //               maincatagory: 'Top Guides',
+        //               coverimages:
+        //                   'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
+        //               content: 'Let us guide you ',
+        //             )));
+      },
+      // padding: const EdgeInsets.symmetric(
+      //horizontal: 0, vertical: 15),
+      menu: Text(
+        "Let us guide you",
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+    ),
+    MenuBox(
+      //padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+      icon: Icon(
+        Icons.supervised_user_circle_sharp,
+        color: Colors.white,
+      ),
+      menu: Text("users", style: textstyle),
+    ),
+    MenuBox(
+      // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+      icon: Icon(
+        Icons.settings,
+        color: Colors.white,
+      ),
+      menu: Text("Setting", style: textstyle),
+    ),
+  ];
+  int? index;
+  PageController page = PageController();
   @override
   Widget build(BuildContext context) {
     // return SliderDrawerWidget(
@@ -45,8 +197,15 @@ class _DashboardState extends State<Dashboard> {
       //   ),
       // ),
 
-      // drawer: Drawer(
-      //   width: 100,
+      // body: PageView(
+      //     onPageChanged: (value) {
+      //       index = value;
+      //     },
+      //     controller: page,
+      //     children: _list),
+
+      // Drawer(
+      //   width: 200,
       //   backgroundColor: HexColor('#13326E'),
       //   child: Padding(
       //     padding: const EdgeInsets.only(left: 30),
@@ -67,233 +226,237 @@ class _DashboardState extends State<Dashboard> {
       //         SizedBox(
       //           height: 40,
       //         ),
-      //         DrawerListTile(
-      //             title: 'none',
-      //             svgSrc: '',
-      //             press: () {
-      //               Container(
-      //                 height: 100,
-      //                 color: Colors.amber,
-      //               );
-      //             })
-      //         // MenuBox(
-      //         //   onTap: () {
-      //         //     Navigator.push(context,
-      //         //         MaterialPageRoute(builder: (context) => Dashboard()));
-      //         //   },
-      //         //   //padding: EdgeInsets.only(left: 0),
-      //         //   icon: Icon(
-      //         //     Icons.dashboard,
-      //         //     color: Colors.white,
-      //         //   ),
-      //         //   menu: Text("Dashboard", style: textstyle),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 30,
-      //         // ),
-      //         // MenuBox(
-      //         //   //padding: EdgeInsets.only(left: 0,),
-      //         //   icon: Icon(
-      //         //     Icons.add_task,
-      //         //     color: Colors.white,
-      //         //   ),
-      //         //   menu: Text("Photos", style: textstyle),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 30,
-      //         // ),
-      //         // MenuBox(
-      //         //   // padding: EdgeInsets.only(left: 0),
-      //         //   icon: Icon(
-      //         //     Icons.announcement_rounded,
-      //         //     color: Colors.white,
-      //         //   ),
-      //         //   menu: Text("Services", style: textstyle),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 20,
-      //         // ),
-      //         // Column(
-      //         //   crossAxisAlignment: CrossAxisAlignment.start,
-      //         //   children: [
-      //         //     Row(
-      //         //       children: [
-      //         //         Icon(
-      //         //           Icons.category,
-      //         //           color: Colors.white,
-      //         //         ),
-      //         //         SizedBox(
-      //         //           width: 15,
-      //         //         ),
-      //         //         Text(
-      //         //           'Add Products',
-      //         //           style: textstyle,
-      //         //         ),
-      //         //       ],
-      //         //     ),
-      //         //     SizedBox(
-      //         //       height: 20,
-      //         //     ),
-      //         //     MenuBox(
-      //         //       onTap: () {
-      //         //         Navigator.push(
-      //         //             context,
-      //         //             MaterialPageRoute(
-      //         //                 builder: (context) => Addproducts()));
-      //         //       },
-      //         //       //padding: EdgeInsets.only(left: 0),
-      //         //       icon: Icon(
-      //         //         Icons.dashboard,
-      //         //         color: Colors.white,
-      //         //         size: 14,
-      //         //       ),
+      //         // DrawerListTile(
+      //         //     title: 'none',
+      //         //     svgSrc: '',
+      //         //     press: () {
+      //         //       Container(
+      //         //         height: 100,
+      //         //         color: Colors.amber,
+      //         //       );
+      //         //     })
 
-      //         //       menu: Text(
-      //         //         "Add Main catagory",
-      //         //         style: TextStyle(
-      //         //           fontSize: 14,
-      //         //           fontWeight: FontWeight.w600,
-      //         //           color: Colors.white,
-      //         //         ),
-      //         //       ),
-      //         //     ),
-      //         //   ],
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 20,
-      //         // ),
-      //         // Column(
-      //         //   crossAxisAlignment: CrossAxisAlignment.start,
-      //         //   children: [
-      //         //     Row(
-      //         //       children: [
-      //         //         Icon(
-      //         //           Icons.category_rounded,
-      //         //           color: Colors.white,
-      //         //         ),
-      //         //         SizedBox(
-      //         //           width: 15,
-      //         //         ),
-      //         //         Text(
-      //         //           'Add Sub Category',
-      //         //           style: textstyle,
-      //         //         ),
-      //         //       ],
-      //         //     ),
-      //         //     SizedBox(
-      //         //       height: 20,
-      //         //     ),
-      //         //     MenuBox(
-      //         //       icon: Icon(
-      //         //         Icons.explore,
-      //         //         color: Colors.white,
-      //         //         size: 14,
-      //         //       ),
-      //         //       onTap: () {
-      //         //         Navigator.push(
-      //         //             context,
-      //         //             MaterialPageRoute(
-      //         //                 builder: (context) => Packges(
-      //         //                     content: "images",
-      //         //                     coverimages: "images",
-      //         //                     maincatagory: "Explore our packages")));
-      //         //       },
-      //         //       // padding: const EdgeInsets.symmetric(
-      //         //       //     horizontal: 0, vertical: 15),
+      //         MenuBox(
+      //           onTap: () {
+      //             Navigator.push(context,
+      //                 MaterialPageRoute(builder: (context) => Dashboard()));
+      //           },
+      //           //padding: EdgeInsets.only(left: 0),
+      //           icon: Icon(
+      //             Icons.dashboard,
+      //             color: Colors.white,
+      //           ),
+      //           menu: Text("Dashboard", style: textstyle),
+      //         ),
 
-      //         //       menu: Text(
-      //         //         "Explore our packages",
-      //         //         style: TextStyle(
-      //         //           fontSize: 14,
-      //         //           fontWeight: FontWeight.w600,
-      //         //           color: Colors.white,
-      //         //         ),
-      //         //       ),
-      //         //     ),
-      //         //   ],
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 15,
-      //         // ),
-      //         // MenuBox(
-      //         //   icon: Icon(
-      //         //     Icons.car_rental,
-      //         //     color: Colors.white,
-      //         //     size: 14,
-      //         //   ),
-      //         //   onTap: () {
-      //         //     Navigator.push(
-      //         //         context,
-      //         //         MaterialPageRoute(
-      //         //             builder: (context) => Rentcars(
-      //         //                 content: "Rent Car",
-      //         //                 coverimages: "Cover images",
-      //         //                 maincatagory: "Get a car for rent ")));
-      //         //   },
-      //         //   // padding: const EdgeInsets.symmetric(
-      //         //   //     horizontal: 0, vertical: 15),
-      //         //   menu: Text(
-      //         //     "Get a car for rent ",
-      //         //     style: TextStyle(
-      //         //       fontSize: 14,
-      //         //       fontWeight: FontWeight.w600,
-      //         //       color: Colors.white,
-      //         //     ),
-      //         //   ),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 15,
-      //         // ),
-      //         // MenuBox(
-      //         //   icon: Icon(
-      //         //     Icons.perm_device_info_rounded,
-      //         //     color: Colors.white,
-      //         //     size: 14,
-      //         //   ),
-      //         //   onTap: () {
-      //         //     Navigator.push(
-      //         //         context,
-      //         //         MaterialPageRoute(
-      //         //             builder: (context) => topguides(
-      //         //                   maincatagory: 'Top Guides',
-      //         //                   coverimages:
-      //         //                       'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
-      //         //                   content: 'Let us guide you ',
-      //         //                 )));
-      //         //   },
-      //         //   // padding: const EdgeInsets.symmetric(
-      //         //   //horizontal: 0, vertical: 15),
-      //         //   menu: Text(
-      //         //     "Let us guide you",
-      //         //     style: TextStyle(
-      //         //       fontSize: 14,
-      //         //       fontWeight: FontWeight.w600,
-      //         //       color: Colors.white,
-      //         //     ),
-      //         //   ),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 30,
-      //         // ),
-      //         // MenuBox(
-      //         //   //padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-      //         //   icon: Icon(
-      //         //     Icons.supervised_user_circle_sharp,
-      //         //     color: Colors.white,
-      //         //   ),
-      //         //   menu: Text("users", style: textstyle),
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 30,
-      //         // ),
-      //         // MenuBox(
-      //         //   // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-      //         //   icon: Icon(
-      //         //     Icons.settings,
-      //         //     color: Colors.white,
-      //         //   ),
-      //         //   menu: Text("Setting", style: textstyle),
-      //         // ),
+      //         SizedBox(
+      //           height: 30,
+      //         ),
+      //         MenuBox(
+      //           //padding: EdgeInsets.only(left: 0,),
+      //           icon: Icon(
+      //             Icons.add_task,
+      //             color: Colors.white,
+      //           ),
+      //           menu: Text("Photos", style: textstyle),
+      //         ),
+
+      //         SizedBox(
+      //           height: 30,
+      //         ),
+      //         MenuBox(
+      //           // padding: EdgeInsets.only(left: 0),
+      //           icon: Icon(
+      //             Icons.announcement_rounded,
+      //             color: Colors.white,
+      //           ),
+      //           menu: Text("Services", style: textstyle),
+      //         ),
+      //         SizedBox(
+      //           height: 20,
+      //         ),
+      //         Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Row(
+      //               children: [
+      //                 Icon(
+      //                   Icons.category,
+      //                   color: Colors.white,
+      //                 ),
+      //                 SizedBox(
+      //                   width: 15,
+      //                 ),
+      //                 Text(
+      //                   'Add Products',
+      //                   style: textstyle,
+      //                 ),
+      //               ],
+      //             ),
+      //             SizedBox(
+      //               height: 20,
+      //             ),
+      //             MenuBox(
+      //               onTap: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => Addproducts()));
+      //               },
+      //               //padding: EdgeInsets.only(left: 0),
+      //               icon: Icon(
+      //                 Icons.dashboard,
+      //                 color: Colors.white,
+      //                 size: 14,
+      //               ),
+
+      //               menu: Text(
+      //                 "Add Main catagory",
+      //                 style: TextStyle(
+      //                   fontSize: 14,
+      //                   fontWeight: FontWeight.w600,
+      //                   color: Colors.white,
+      //                 ),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         SizedBox(
+      //           height: 20,
+      //         ),
+      //         Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Row(
+      //               children: [
+      //                 Icon(
+      //                   Icons.category_rounded,
+      //                   color: Colors.white,
+      //                 ),
+      //                 SizedBox(
+      //                   width: 15,
+      //                 ),
+      //                 Text(
+      //                   'Add Sub Category',
+      //                   style: textstyle,
+      //                 ),
+      //               ],
+      //             ),
+      //             SizedBox(
+      //               height: 20,
+      //             ),
+      //             MenuBox(
+      //               icon: Icon(
+      //                 Icons.explore,
+      //                 color: Colors.white,
+      //                 size: 14,
+      //               ),
+      //               onTap: () {
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => Packges(
+      //                             content: "images",
+      //                             coverimages: "images",
+      //                             maincatagory: "Explore our packages")));
+      //               },
+      //               // padding: const EdgeInsets.symmetric(
+      //               //     horizontal: 0, vertical: 15),
+
+      //               menu: Text(
+      //                 "Explore our packages",
+      //                 style: TextStyle(
+      //                   fontSize: 14,
+      //                   fontWeight: FontWeight.w600,
+      //                   color: Colors.white,
+      //                 ),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         SizedBox(
+      //           height: 15,
+      //         ),
+      //         MenuBox(
+      //           icon: Icon(
+      //             Icons.car_rental,
+      //             color: Colors.white,
+      //             size: 14,
+      //           ),
+      //           onTap: () {
+      //             Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                     builder: (context) => Rentcars(
+      //                         content: "Rent Car",
+      //                         coverimages: "Cover images",
+      //                         maincatagory: "Get a car for rent ")));
+      //           },
+      //           // padding: const EdgeInsets.symmetric(
+      //           //     horizontal: 0, vertical: 15),
+      //           menu: Text(
+      //             "Get a car for rent ",
+      //             style: TextStyle(
+      //               fontSize: 14,
+      //               fontWeight: FontWeight.w600,
+      //               color: Colors.white,
+      //             ),
+      //           ),
+      //         ),
+      //         SizedBox(
+      //           height: 15,
+      //         ),
+      //         MenuBox(
+      //           icon: Icon(
+      //             Icons.perm_device_info_rounded,
+      //             color: Colors.white,
+      //             size: 14,
+      //           ),
+      //           onTap: () {
+      //             Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                     builder: (context) => topguides(
+      //                           maincatagory: 'Top Guides',
+      //                           coverimages:
+      //                               'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
+      //                           content: 'Let us guide you ',
+      //                         )));
+      //           },
+      //           // padding: const EdgeInsets.symmetric(
+      //           //horizontal: 0, vertical: 15),
+      //           menu: Text(
+      //             "Let us guide you",
+      //             style: TextStyle(
+      //               fontSize: 14,
+      //               fontWeight: FontWeight.w600,
+      //               color: Colors.white,
+      //             ),
+      //           ),
+      //         ),
+      //         SizedBox(
+      //           height: 30,
+      //         ),
+      //         MenuBox(
+      //           //padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+      //           icon: Icon(
+      //             Icons.supervised_user_circle_sharp,
+      //             color: Colors.white,
+      //           ),
+      //           menu: Text("users", style: textstyle),
+      //         ),
+      //         SizedBox(
+      //           height: 30,
+      //         ),
+      //         MenuBox(
+      //           // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+      //           icon: Icon(
+      //             Icons.settings,
+      //             color: Colors.white,
+      //           ),
+      //           menu: Text("Setting", style: textstyle),
+      //         ),
+
       //       ],
       //     ),
       //   ),
@@ -396,6 +559,7 @@ class _DashboardState extends State<Dashboard> {
                 title: 'Explore our packages',
                 onTap: () {
                   page.jumpToPage(4);
+
                 },
                 icon: const Icon(
                   Icons.explore,
@@ -452,6 +616,16 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
+
+                // Container(
+                //   color: Colors.white,
+                //   child: const Center(
+                //     child: Text(
+                //       'Dashboard',
+                //       style: TextStyle(fontSize: 35),
+                //     ),
+                //   ),
+                // ),
                 //1
                 Container(
                   color: Colors.white,
@@ -493,15 +667,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
 
                 //7
-                Container(
-                  color: Colors.white,
-                  child: const Center(
-                    child: Text(
-                      'Users',
-                      style: TextStyle(fontSize: 35),
-                    ),
-                  ),
-                ),
+                AllUsersData(),
                 //8
                 Container(
                   color: Colors.white,

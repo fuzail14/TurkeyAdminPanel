@@ -51,7 +51,7 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
                 children: [
                   Center(
                       child: Text(
-                    "Recomeneded Resturent",
+                    "Recomeneded Resturent chk",
                     style: GoogleFonts.merriweather(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   )),
@@ -82,16 +82,16 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
                     },
                     child: Container(
                       height: 200,
-                      decoration: BoxDecoration(
-                          color: AppColors.unselected_c,
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                topresturent == null
-                                    ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                                    : topresturent,
-                              ))),
-                      child: topresturent == null
+                      // decoration: BoxDecoration(
+                      //     color: AppColors.unselected_c,
+                      //     image: DecorationImage(
+                      //         fit: BoxFit.fill,
+                      //         image: NetworkImage(
+                      //           topresturent == null
+                      //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+                      //               : topresturent,
+                      //         ))),
+                      child: _pickedImage == null
                           ? Center(
                               child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,7 +108,7 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
                                     : CircularProgressIndicator()
                               ],
                             ))
-                          : null,
+                          : Image.memory(webImage),
                     ),
                   ),
                   SizedBox(
@@ -119,11 +119,12 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
                     onpressed: () async {
                       FirebaseFirestore firestore = FirebaseFirestore.instance;
                       try {
-                        if (topresturent != null && cityname.text.isNotEmpty) {
+                        if (topresturentimg != null &&
+                            cityname.text.isNotEmpty) {
                           await firestore
                               .collection("resturent-in-cities")
                               .add({
-                            "resturentimage": topresturent,
+                            "resturentimage": topresturentimg,
                             "resturentname": cityname.text,
                             "date": formattedDate,
                             "cityname": widget.cityname,
@@ -136,10 +137,10 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => returentproducts(
-                                      cityname:widget.cityname,
-                                      cityimage:widget.cityimage,
-                                      resturentimage:topresturent,
-                                      resturentname:cityname.text,
+                                      cityname: widget.cityname,
+                                      cityimage: widget.cityimage,
+                                      resturentimage: topresturentimg.toString(),
+                                      resturentname: cityname.text,
                                     )));
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -159,8 +160,11 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
     );
   }
 
-  var topresturent;
+  var topresturentimg;
   bool loading = false;
+
+  Uint8List webImage = Uint8List(8);
+  File? _pickedImage;
 
   Future<void> _upload(String inputSource) async {
     final picker = ImagePicker();
@@ -176,37 +180,112 @@ class _cities_wiseresturentsState extends State<cities_wiseresturents> {
           maxWidth: 1920);
 
       final String fileName = path.basename(pickedImage!.path);
+
       File imageFile = File(pickedImage.path);
-      print('Usama$fileName');
+      var f;
+      print('image $fileName');
 
-      try {
-        FirebaseStorage storage = FirebaseStorage.instance;
-        // Uploading the selected image with some custom meta data
-        await storage.ref(fileName).putFile(
-            imageFile,
-            SettableMetadata(customMetadata: {
-              'uploaded_by': 'A bad guy',
-              'description': 'Some description...'
-            }));
-        topresturent = await storage.ref(fileName).getDownloadURL();
-        print(topresturent);
+      if (pickedImage != null) {
+        f = await pickedImage.readAsBytes();
+        setState(() {
+          webImage = f;
 
-        // Refresh the UI
-        setState(() {});
-      } on FirebaseException catch (error) {
-        if (kDebugMode) {
-          print(error);
-        }
+          _pickedImage = File('a');
+        });
       }
+      if (kIsWeb) {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference _reference =
+            storage.ref().child('${path.basename(pickedImage.path)}');
+        await _reference
+            .putData(
+          await pickedImage.readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            topresturentimg = value;
+          });
+        });
+      } else {
+//write a code for android or ios
+      }
+
+      //   try {
+      //     FirebaseStorage storage = FirebaseStorage.instance;
+      //     // Uploading the selected image with some custom meta data
+      //     await storage.ref(fileName).putFile(
+      //         imageFile,
+      //         SettableMetadata(customMetadata: {
+      //           'uploaded_by': 'A bad guy',
+      //           'description': 'Some description...'
+      //         }));
+      //     mainimages = await storage.ref(fileName).getDownloadURL();
+      //     print(mainimages);
+
+      //     // Refresh the UI
+      //     setState(() {});
+      //   } on FirebaseException catch (error) {
+      //     if (kDebugMode) {
+      //       print('catch error $error');
+      //     }
+      //   }
+      // }
     } catch (err) {
       if (kDebugMode) {
-        print(err);
+        print('catch err $err');
       }
       setState(() {
         loading = false;
       });
     }
   }
+
+  // Future<void> _upload(String inputSource) async {
+  //   final picker = ImagePicker();
+  //   XFile? pickedImage;
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   try {
+  //     pickedImage = await picker.pickImage(
+  //         source: inputSource == 'camera'
+  //             ? ImageSource.camera
+  //             : ImageSource.gallery,
+  //         maxWidth: 1920);
+
+  //     final String fileName = path.basename(pickedImage!.path);
+  //     File imageFile = File(pickedImage.path);
+  //     print('Usama$fileName');
+
+  //     try {
+  //       FirebaseStorage storage = FirebaseStorage.instance;
+  //       // Uploading the selected image with some custom meta data
+  //       await storage.ref(fileName).putFile(
+  //           imageFile,
+  //           SettableMetadata(customMetadata: {
+  //             'uploaded_by': 'A bad guy',
+  //             'description': 'Some description...'
+  //           }));
+  //       topresturent = await storage.ref(fileName).getDownloadURL();
+  //       print(topresturent);
+
+  //       // Refresh the UI
+  //       setState(() {});
+  //     } on FirebaseException catch (error) {
+  //       if (kDebugMode) {
+  //         print(error);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     if (kDebugMode) {
+  //       print(err);
+  //     }
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   uploadImage() async {
     final _firebaseStorage = FirebaseStorage.instance;
