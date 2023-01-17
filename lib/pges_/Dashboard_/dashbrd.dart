@@ -423,8 +423,16 @@ class _DashboardState extends State<Dashboard> {
                     Icons.perm_device_info_rounded,
                     color: Colors.white,
                   )),
-              const SideMenuItem(
+              SideMenuItem(
                 priority: 7,
+                title: 'Users',
+                onTap: () {
+                  page.jumpToPage(7);
+                },
+                icon: Icon(Icons.exit_to_app),
+              ),
+              const SideMenuItem(
+                priority: 8,
                 title: 'Exit',
                 icon: Icon(Icons.exit_to_app),
               ),
@@ -434,6 +442,7 @@ class _DashboardState extends State<Dashboard> {
             child: PageView(
               controller: page,
               children: [
+                //0
                 Container(
                   color: Colors.white,
                   child: const Center(
@@ -443,6 +452,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
+                //1
                 Container(
                   color: Colors.white,
                   child: const Center(
@@ -452,6 +462,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
+                //2
                 Container(
                   color: Colors.white,
                   child: const Center(
@@ -461,21 +472,46 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
+                //3
                 Addproducts(),
+                //4
                 Packges(
                     content: "images",
                     coverimages: "images",
                     maincatagory: "Explore our packages"),
+                //5
                 Rentcars(
                     content: "Rent Car",
                     coverimages: "Cover images",
                     maincatagory: "Get a car for rent "),
+                //6
                 topguides(
                   maincatagory: 'Top Guides',
                   coverimages:
                       'https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/scaled_image_picker6773623610648662444.jpg?alt=media&token=83f9ae4f-b8a0-4cb3-b35a-9cb227e883eb',
                   content: 'Let us guide you ',
-                )
+                ),
+
+                //7
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Users',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
+                //8
+                Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: Text(
+                      'Exit',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

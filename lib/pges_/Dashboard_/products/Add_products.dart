@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,16 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_radio_group/flutter_radio_group.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:turkeyadmin/pges_/Dashboard_/dashbrd.dart';
 import 'package:turkeyadmin/pges_/Dashboard_/guides/topguides.dart';
 import '../../Helper/Stringconst.dart';
 import '../../Helper/colorsconst.dart';
 import '../../Helper/images.dart';
 import '../../widgets/Appbrwidget.dart';
 import '../../widgets/SnackBar_widget.dart';
+import '../../widgets/mytextformfield.dart';
 import '../../widgets/producttextField.dart';
 import '../Resturent/TopResturent-cities.dart';
 import 'Medicine.dart';
@@ -35,17 +39,15 @@ class _AddproductsState extends State<Addproducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(110),
           child: Padding(
-            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-            child: DMC_widget_appbr(
-              onpressed: () {},
-              text: "Add products",
-              image: Images.Profile,
-            ),
-          ),
+              padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+              child: Center(
+                  child: Text(
+                'Add Products',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              ))),
         ),
         body: AnimationConfiguration.staggeredGrid(
           position: 2,
@@ -57,86 +59,209 @@ class _AddproductsState extends State<Addproducts> {
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Content'),
-                      productfield(
-                        textInputType: TextInputType.text,
-                        width: null,
-                        text: 'Content',
-                        controller: contentconroller,
-                        height: null,
-                      ),
                       SizedBox(
-                        height: 20,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _upload('gallery');
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10),
-                          height: 200,
-                          // decoration: BoxDecoration(
-                          //     color: AppColors.unselected_c,
-                          //     image: DecorationImage(
-                          //         fit: BoxFit.fill,
-                          //         image: NetworkImage(
-                          //           mainimages == null
-                          //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                          //               : mainimages,
-                          //         ))
-                          //         ),
-
-                          child: _pickedImage == null
-                              ? Center(
-                                  child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    loading == true
-                                        ? CircularProgressIndicator()
-                                        : Text(
-                                            'Choose from Gallery',
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.blue),
+                        width: MediaQuery.of(context).size.width * 0.800,
+                        height: MediaQuery.of(context).size.height * 0.520,
+                        child: Card(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        elevation: 5,
+                            color: HexColor('#FFFFFF'),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10,top:10),
+                              child: Column(
+                                children: [
+                                  // SizedBox(
+                                  //   width: 20,
+                                  // ),
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Content:',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w800),
                                           ),
-                                  ],
-                                ))
-                              : Image.memory(webImage),
-                        ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0,
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0,
+                                                0,
+                                                0),
+                                            child: MyTextFormField(
+                                                fontWeight: FontWeight.w500,
+                                                // labelTextColor:secondaryColor ,
+                                                // hintTextColor: secondaryColor,
+
+                                                fillColor: HexColor('#F7F7F8'),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.39,
+
+                                                //validator: emptyStringValidator,
+
+                                                //controller: controller.subAdminFirstNameController,
+                                                controller: contentconroller,
+                                                hintText: "Enter Content",
+                                                obscureText: false,
+                                                labelText: "Enter Content",
+                                                onFocusedBorderColor:
+                                                    HexColor('#F7F7F8'),
+                                                onEnabledBorderColor:
+                                                    HexColor('#F7F7F8')),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Main Catagory",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              color: HexColor('#F7F7F8'),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      '${_listHorizontal[_indexHorizontal]}',
+                                                      textAlign: TextAlign.left,
+                                                      style: GoogleFonts.roboto(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        print(formattedDate);
+                                                        ShowBottomsheet(context);
+                                                      },
+                                                      child: Icon(Icons
+                                                          .arrow_forward_ios),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          _upload('gallery');
+                                        },
+                                        child: DottedBorder(
+                                          color: HexColor('#13326E'),
+                                          strokeWidth: 1,
+                                          dashPattern: [10, 8],
+                                          child: Container(
+                                            // margin:
+                                            //     EdgeInsets.only(top: 10, bottom: 10),
+
+                                            height: 150,
+
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.39,
+                                            // decoration: BoxDecoration(
+                                            //     color: AppColors.unselected_c,
+
+                                            //         ),
+
+                                            child: _pickedImage == null
+                                                ? Center(
+                                                    child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: [
+                                                      loading == true
+                                                          ? CircularProgressIndicator()
+                                                          : Text(
+                                                              'Choose from Gallery',
+                                                              style: GoogleFonts
+                                                                  .roboto(
+                                                                      fontSize:
+                                                                          20,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w700,
+                                                                      color: Colors
+                                                                          .blue),
+                                                            ),
+                                                    ],
+                                                  ))
+                                                : Image.memory(
+                                                    webImage,
+                                                    height: 150,
+                                                    width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.39,
+                                                  ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // Align(
+                                  //   alignment: Alignment.bottomRight,
+                                  //   child: ElevatedButton(
+                                  //       style: ElevatedButton.styleFrom(
+                                  //           minimumSize: Size(30, 30),
+
+                                  //           ),
+                                  //       onPressed: () {},
+                                  //       child: Text('Submit')),
+                                  // )
+
+                                  // productfield(
+                                  //   textInputType: TextInputType.text,
+                                  //   width: null,
+                                  //   text: 'Content',
+
+                                  //   height: null,
+                                  // ),
+                                ],
+                              ),
+                            )),
                       ),
-                      Text("Main Catagory"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          height: 50,
-                          color: AppColors.unselected_c,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${_listHorizontal[_indexHorizontal]}',
-                                  textAlign: TextAlign.left,
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    print(formattedDate);
-                                    ShowBottomsheet(context);
-                                  },
-                                  child: Icon(Icons.arrow_forward_ios),
-                                ),
-                              ],
-                            ),
-                          )),
+                    
                     ],
                   ),
                 ),
