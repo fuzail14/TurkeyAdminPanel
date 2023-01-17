@@ -32,6 +32,7 @@ class Packges extends StatefulWidget {
       {required this.content,
       required this.coverimages,
       required this.maincatagory});
+      
   @override
   State<Packges> createState() => _PackgesState();
 }

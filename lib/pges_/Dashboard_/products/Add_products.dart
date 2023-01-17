@@ -35,6 +35,7 @@ class _AddproductsState extends State<Addproducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(110),
           child: Padding(

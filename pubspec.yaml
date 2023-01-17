@@ -52,6 +52,8 @@ dependencies:
   permission_handler: ^10.2.0
   firebase_core_web: ^2.1.0
   file_picker: ^5.2.5
+  hexcolor: ^3.0.1
+  easy_sidemenu: ^0.4.1
 
 dev_dependencies:
   flutter_test:
