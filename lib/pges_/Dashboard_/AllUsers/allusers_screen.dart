@@ -100,16 +100,17 @@ class _AllUsersDataState extends State<AllUsersData> {
                           ),
                           child: Row(
                             children: [
-                              SizedBox(
-                                  height: 30,
-                                  width: 30,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.network(
-                                      snapshot.data!.docs[index]['image']
-                                          .toString(),
-                                    ),
-                                  )),
+                              // SizedBox(
+                              //     height: 30,
+                              //     width: 30,
+                              //     child: CircleAvatar(
+                              //       backgroundColor: Colors.white,
+                              //       child: Image.network(
+                              //         snapshot.data!.docs[index]['image']
+                              //             .toString(),
+                              //       ),
+                              //     )),
+
                               SizedBox(
                                 width: 10,
                               ),
@@ -136,31 +137,35 @@ class _AllUsersDataState extends State<AllUsersData> {
                                   print(
                                       'id ${snapshot.data!.docs[index]['id'].toString()}');
 
-                                  ref.doc(snapshot.data!.docs[index]['id'].toString()).delete();
-                                  setState(() {
-                                    
-                                  });
+                                  ref
+                                      .doc(snapshot.data!.docs[index]['id']
+                                          .toString())
+                                      .delete();
+                                  setState(() {});
                                 },
-                                child: Icon(Icons.delete,
-                                size: 24,
-                                color: HexColor('#13326E'),),
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 24,
+                                  color: HexColor('#13326E'),
+                                ),
                               ),
-                              SizedBox(width: 20,),
-                             InkWell(
+                              SizedBox(
+                                width: 20,
+                              ),
+                              InkWell(
                                 onTap: () async {
                                   print(
                                       'id ${snapshot.data!.docs[index]['id'].toString()}');
-                                      
+                                  FirebaseAuth auth = FirebaseAuth.instance;
 
-                                  
-                                  setState(() {
-                                    
-                                  });
+                                  setState(() {});
                                 },
-                                child: Icon(Icons.block,
-                                size: 24,
-                                color: HexColor('#13326E'),),
-                              ) 
+                                child: Icon(
+                                  Icons.block,
+                                  size: 24,
+                                  color: HexColor('#13326E'),
+                                ),
+                              )
                             ],
                           ),
                         ),

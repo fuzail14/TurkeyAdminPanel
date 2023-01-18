@@ -44,234 +44,228 @@ class _topguidesState extends State<topguides> {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-              padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
-              child: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
+      child: SingleChildScrollView(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+              child: Text(
+            "Add Cities",
+            style: GoogleFonts.merriweather(
+                fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.800,
+            height: MediaQuery.of(context).size.height * 0.570,
+            child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                elevation: 5,
+                color: HexColor('#FFFFFF'),
+                child: Center(
                   child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                      child: Text(
-                    "Add Cities",
-                    style: GoogleFonts.merriweather(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  )),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.800,
-                    height: MediaQuery.of(context).size.height * 0.570,
-                    child: Card(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        elevation: 5,
-                        color: HexColor('#FFFFFF'),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              // SizedBox(
-                              //   width: 20,
-                              // ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'City Name:',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  MyTextFormField(
-                                      fontWeight: FontWeight.w500,
-                                      // labelTextColor:secondaryColor ,
-                                      // hintTextColor: secondaryColor,
-
-                                      fillColor: HexColor('#F7F7F8'),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.39,
-
-                                      //validator: emptyStringValidator,
-
-                                      //controller: controller.subAdminFirstNameController,
-                                      controller: cityname,
-                                      hintText: "Enter City",
-                                      obscureText: false,
-                                      labelText: "Enter City",
-                                      onFocusedBorderColor: HexColor('#F7F7F8'),
-                                      onEnabledBorderColor:
-                                          HexColor('#F7F7F8')),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-
-                              GestureDetector(
-                                onTap: () {
-                                  _upload('gallery');
-                                },
-                                child: DottedBorder(
-                                  color: HexColor('#13326E'),
-                                  strokeWidth: 1,
-                                  dashPattern: [10, 8],
-                                  child: Container(
-                                    height: 150,
-
-                                    width: MediaQuery.of(context).size.width *
-                                        0.39,
-
-                                    // decoration: BoxDecoration(
-                                    //     color: AppColors.unselected_c,
-                                    //     image: DecorationImage(
-                                    //         fit: BoxFit.fill,
-                                    //         image: NetworkImage(
-                                    //           cityimage == null
-                                    //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                                    //               : cityimage,
-                                    //         ))),
-                                    child: _pickedImage == null
-                                        ? Center(
-                                            child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              loading == false
-                                                  ? Text(
-                                                      'Choose from Gallery',
-                                                      style: GoogleFonts.roboto(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: Colors.blue),
-                                                    )
-                                                  : CircularProgressIndicator()
-                                            ],
-                                          ))
-                                        : Image.memory(webImage),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              log_sigup(
-                                height: 50,
-                                width: 194,
-                                text: "Set Guides",
-                                onpressed: () async {
-                                  FirebaseFirestore firestore =
-                                      FirebaseFirestore.instance;
-                                  try {
-                                    if (cityimages != null &&
-                                        cityname.text.isNotEmpty) {
-                                      await firestore.collection("cities").add({
-                                        "cityimage": cityimages,
-                                        "cityname": cityname.text,
-                                        "date": formattedDate,
-                                      });
-                                    }
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbar.successSnackBar(
-                                            "Store successully"));
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => subguides(
-                                                  cityimage: cityimages,
-                                                  cityname: cityname.text,
-                                                )));
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbar.ErrorSnackBar(
-                                            "Some thing went wrong"));
-                                  }
-                                },
-                              ),
-
-                              // Align(
-                              //   alignment: Alignment.bottomRight,
-                              //   child: ElevatedButton(
-                              //       style: ElevatedButton.styleFrom(
-                              //           minimumSize: Size(30, 30),
-
-                              //           ),
-                              //       onPressed: () {},
-                              //       child: Text('Submit')),
-                              // )
-
-                              // productfield(
-                              //   textInputType: TextInputType.text,
-                              //   width: null,
-                              //   text: 'Content',
-
-                              //   height: null,
-                              // ),
-                            ],
+                    children: [
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'City Name:',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w800),
                           ),
-                        )),
-                  ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MyTextFormField(
+                              fontWeight: FontWeight.w500,
+                              // labelTextColor:secondaryColor ,
+                              // hintTextColor: secondaryColor,
 
-                  // Text('City Name'),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // productfield(
-                  //   width: null,
-                  //   height: null,
-                  //   controller: cityname,
-                  //   text: "City Name",
-                  //   textInputType: TextInputType.text,
-                  // ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Text('City Images'),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     _upload('gallery');
-                  //   },
-                  //   child: Container(
-                  //     height: 200,
-                  //     // decoration: BoxDecoration(
-                  //     //     color: AppColors.unselected_c,
-                  //     //     image: DecorationImage(
-                  //     //         fit: BoxFit.fill,
-                  //     //         image: NetworkImage(
-                  //     //           cityimage == null
-                  //     //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
-                  //     //               : cityimage,
-                  //     //         ))),
-                  //     child: _pickedImage == null
-                  //         ? Center(
-                  //             child: Row(
-                  //             crossAxisAlignment: CrossAxisAlignment.center,
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               loading == false
-                  //                   ? Text(
-                  //                       'Choose from Gallery',
-                  //                       style: GoogleFonts.roboto(
-                  //                           fontSize: 20,
-                  //                           fontWeight: FontWeight.w700,
-                  //                           color: Colors.blue),
-                  //                     )
-                  //                   : CircularProgressIndicator()
-                  //             ],
-                  //           ))
-                  //         : Image.memory(webImage),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                ],
-              )),
-            
+                              fillColor: HexColor('#F7F7F8'),
+                              width: MediaQuery.of(context).size.width * 0.39,
+
+                              //validator: emptyStringValidator,
+
+                              //controller: controller.subAdminFirstNameController,
+                              controller: cityname,
+                              hintText: "Enter City",
+                              obscureText: false,
+                              labelText: "Enter City",
+                              onFocusedBorderColor: HexColor('#F7F7F8'),
+                              onEnabledBorderColor: HexColor('#F7F7F8')),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      GestureDetector(
+                        onTap: () {
+                          _upload('gallery');
+                        },
+                        child: DottedBorder(
+                          color: HexColor('#13326E'),
+                          strokeWidth: 1,
+                          dashPattern: [10, 8],
+                          child: Container(
+                            height: 150,
+
+                            width: MediaQuery.of(context).size.width * 0.39,
+
+                            // decoration: BoxDecoration(
+                            //     color: AppColors.unselected_c,
+                            //     image: DecorationImage(
+                            //         fit: BoxFit.fill,
+                            //         image: NetworkImage(
+                            //           cityimage == null
+                            //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+                            //               : cityimage,
+                            //         ))),
+                            child: _pickedImage == null
+                                ? Center(
+                                    child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      loading == false
+                                          ? Text(
+                                              'Choose from Gallery',
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.blue),
+                                            )
+                                          : CircularProgressIndicator()
+                                    ],
+                                  ))
+                                : Image.memory(webImage),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      log_sigup(
+                        height: 50,
+                        width: 194,
+                        text: "Set Guides",
+                        onpressed: () async {
+                          FirebaseFirestore firestore =
+                              FirebaseFirestore.instance;
+                          try {
+                            if (cityimages != null &&
+                                cityname.text.isNotEmpty) {
+                              await firestore.collection("cities").add({
+                                "cityimage": cityimages,
+                                "cityname": cityname.text,
+                                "date": formattedDate,
+                              });
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                MySnackbar.successSnackBar(
+                                    "Store successully"));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => subguides(
+                                          cityimage: cityimages,
+                                          cityname: cityname.text,
+                                        )));
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                MySnackbar.ErrorSnackBar(
+                                    "Some thing went wrong"));
+                          }
+                        },
+                      ),
+
+                      // Align(
+                      //   alignment: Alignment.bottomRight,
+                      //   child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //           minimumSize: Size(30, 30),
+
+                      //           ),
+                      //       onPressed: () {},
+                      //       child: Text('Submit')),
+                      // )
+
+                      // productfield(
+                      //   textInputType: TextInputType.text,
+                      //   width: null,
+                      //   text: 'Content',
+
+                      //   height: null,
+                      // ),
+                    ],
+                  ),
+                )),
+          ),
+
+          // Text('City Name'),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // productfield(
+          //   width: null,
+          //   height: null,
+          //   controller: cityname,
+          //   text: "City Name",
+          //   textInputType: TextInputType.text,
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // Text('City Images'),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // GestureDetector(
+          //   onTap: () {
+          //     _upload('gallery');
+          //   },
+          //   child: Container(
+          //     height: 200,
+          //     // decoration: BoxDecoration(
+          //     //     color: AppColors.unselected_c,
+          //     //     image: DecorationImage(
+          //     //         fit: BoxFit.fill,
+          //     //         image: NetworkImage(
+          //     //           cityimage == null
+          //     //               ? "https://firebasestorage.googleapis.com/v0/b/turkey-app-40705.appspot.com/o/image%2011%20(4).png?alt=media&token=6c12aa3b-6025-4a7a-8ab6-5a8b6d141e00"
+          //     //               : cityimage,
+          //     //         ))),
+          //     child: _pickedImage == null
+          //         ? Center(
+          //             child: Row(
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               loading == false
+          //                   ? Text(
+          //                       'Choose from Gallery',
+          //                       style: GoogleFonts.roboto(
+          //                           fontSize: 20,
+          //                           fontWeight: FontWeight.w700,
+          //                           color: Colors.blue),
+          //                     )
+          //                   : CircularProgressIndicator()
+          //             ],
+          //           ))
+          //         : Image.memory(webImage),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+        ],
+      )),
     );
   }
 
